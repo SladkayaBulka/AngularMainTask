@@ -1,0 +1,22 @@
+<div class="container pt-5">
+    <form *ngFor="let i of Arr(countSteps).fill(1); let j = index">
+        <h2 *ngIf="createBtn == j">Steps {{j+1}}</h2>
+        <div class="form-group" *ngIf="createBtn == j">
+          <label for="">steps title</label>
+          <input type="text" class="form-control" [(ngModel)]="titleStep" name="titleStep">
+        </div>
+        <div class="form-group" *ngIf="createBtn == j">
+          <label for="">instruction image</label>
+           <div class="dropzone" style="text-align: center; width: 100px; height: 100px; background: #efd0dc;" appDnd (filesChangeEmiter)="onFilesChange($event)">
+               Drop here!
+           </div>
+        </div>
+        <div class="form-group" *ngIf="createBtn == j">
+          <label for="">description of instruction steps</label>
+          <textarea class="form-control" rows="3" [(ngModel)]="contentStep" name="contentStep"></textarea>
+        </div>
+        <div class="form-group" *ngIf="createBtn == j">
+            <button class="btn btn-danger" (click)="incButtonCkick(j)">Create</button>
+          </div>
+      </form>
+</div>

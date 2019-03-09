@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1" aria-controls="navbar1" aria-expanded="false" aria-label="Toggle navigation">
+    	<span class="navbar-toggler-icon"></span>
+  	</button>
+
+        <div class="collapse navbar-collapse" id="navbar1">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/">Instruction <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/signin" *ngIf="!isAutorise">SignIn</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/registration" *ngIf="!isAutorise">Registration</a>
+                </li>
+                <li class="nav-item">
+                        <a class="nav-link" routerLink="/" *ngIf="isAutorise" (click)="userLogOut()">logOut</a>
+                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" *ngIf="isAdmin &&  isAutorise">Adminnistration</a>
+                </li>
+                <li class="nav-item dropdown" *ngIf="isAutorise">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{userName}}</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                        <a class="dropdown-item" href="#">My settings</a>
+                        <a class="dropdown-item" routerLink="/useredit">Edit instruction</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" routerLink="/addinstruction">Create new instruction</a>
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>

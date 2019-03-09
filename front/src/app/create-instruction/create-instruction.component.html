@@ -1,0 +1,25 @@
+<div class="container pt-5">
+    <form>
+        <div class="form-group">
+          <label for="">Instruction title</label>
+          <input type="email" class="form-control" [(ngModel)]="instructionTitle" name="instructionTitle">
+        </div>
+        <div class="form-group">
+          <label for="">instruction image</label>
+           <div class="dropzone" style="text-align: center; width: 100px; height: 100px; background: #efd0dc;" appDnd (filesChangeEmiter)="onFilesChange($event)">
+               Drop here!
+           </div>
+        </div>
+        <div class="form-group">
+          <label for="">description of instructions</label>
+          <textarea class="form-control" rows="3" [(ngModel)]="instructionContent" name="instructionContent"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="">count steps</label>
+            <input type="number" class="form-control" [(ngModel)]="countSteps" name="countSteps">
+          </div>
+        <div class="form-group">
+            <button class="btn btn-danger" (click)="createInstruction()">Create</button>
+          </div>
+      </form>
+</div>

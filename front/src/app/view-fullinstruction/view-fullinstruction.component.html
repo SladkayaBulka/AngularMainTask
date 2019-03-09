@@ -1,0 +1,39 @@
+<div class="container pt-5">
+    <form >
+        <div class="form-group" >
+          <h1>{{instructionTitle}}</h1>
+        </div>
+        <div class="form-group">
+           <div style="text-align: center; width: 400px; height: 400px; background: #efd0dc;">
+               {{instructionImg}}
+           </div>
+        </div>
+        <div class="form-group" >
+          <p>{{instructionContent}}</p>
+        </div>
+      </form>
+    <mat-tab-group  mat-align-tabs = "center" animationDuration = "0ms"> 
+    <mat-tab label="{{item.StepTitle}}" *ngFor="let item of instructionSteps"> 
+        <form >
+            <div class="form-group">
+               <div style="text-align: center; width: 200px; height: 200px; background: #efd0dc;">
+                   {{item.StepImg}}
+               </div>
+            </div>
+            <div class="form-group" >
+              <p>{{item.StepContent}}</p>
+            </div>
+          </form> </mat-tab>
+  </mat-tab-group>
+  <form >
+      <div class="form-group" >
+        <h1>Comments</h1>
+      </div>
+      <div class="form-group">
+          <input type="text" class="form-control" [(ngModel)]="comment" name="comment">
+      </div>
+      <div class="form-group" >
+        <p>{{commentData.text}}</p>
+      </div>
+    </form>
+</div>
