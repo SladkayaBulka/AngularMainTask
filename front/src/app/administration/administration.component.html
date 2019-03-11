@@ -1,0 +1,38 @@
+<div class="container pt-5">
+<table class="table table-sm table-striped">
+    <thead>
+      <tr>
+        <th>delete</th>
+        <th>admin</th>
+        <th>ban</th>
+        <th>User Name</th>
+        <th>User Email</th>
+        <th>is block</th>
+        <th>is admin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of userData">
+        <th scope="row">
+          <button class='btn btn-lg' style='background-color:transparent;' (click)="deleteUser(item.username)"> 
+            <div style='text-align:center;'><i class="far fa-trash-alt"></i></div>  
+        </button>
+      </th>
+      <th scope="row">
+          <button class='btn btn-lg' style='background-color:transparent;' (click)="adminUser(item.username, item.isadmin)"> 
+            <div style='text-align:center;'><i class="fas fa-user-ninja"></i></div>  
+        </button>
+      </th>
+      <th scope="row">
+          <button class='btn btn-lg' style='background-color:transparent;' (click)="blockUser(item.username, item.isblock)"> 
+            <div style='text-align:center;'><i class="fas fa-ban"></i></div>  
+        </button>
+      </th>
+        <td>{{item.username}}</td>
+        <td>{{item.useremail}}</td>
+        <td>{{item.isblock}}</td>
+        <td>{{item.isadmin}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

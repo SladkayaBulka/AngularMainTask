@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const comment = mongoose.model('Comment');
 
 const getComments = (req, res) => {
-    comment.find({ })
+    comment.find({instructionname: req.params.instructionName })
         .exec()
         .then(comments => res.json(comments))
         .catch(err => res.status(500).json(err));

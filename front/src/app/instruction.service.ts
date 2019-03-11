@@ -14,11 +14,33 @@ export class InstructionService {
   };
   private countSteps: number;
   private instructionName: string;
+  private comment: Comments;
   constructor(private http: HttpClient) { }
 
 
-  getUserInstruction(username): Observable<instructions[]> {
-    return this.http.get<instructions[]>(`${this.url}/instruction/${username}`);
+  getComments(instructionName): Observable<Comments[]> {
+    return this.http.get<Comments[]>(`${this.url}/comment/${instructionName}`);
+  }
+
+  setComments(comment, instructionName, userName) {
+    this.comment = {
+      instructionname: instructionName,
+      username: userName,
+      text: comment
+    };
+    return this.http.post<any>(`${this.url}/comment`, this.comment);
+  }
+
+  getUserInstruction(username): Observable<Instructions[]> {
+    return this.http.get<Instructions[]>(`${this.url}/instruction/${username}`);
+  }
+
+  deleteInstruction(instructionname) {
+    return this.http.delete<any>(`${this.url}/instructions/${instructionname}`);
+  }
+
+  delAllSteps(instructionname) {
+    return this.http.delete<any>(`${this.url}/steps/${instructionname}`);
   }
 
   getAllSteps(stepsId) {
@@ -43,11 +65,11 @@ export class InstructionService {
   }
 
   setInstructionName(instrName) {
-    this.instructionName = instrName;
+    localStorage.setItem('instructionName', instrName);
   }
 
   getInstructionName() {
-    return this.instructionName;
+    return localStorage.getItem('instructionName');
   }
 
   setCountSteps(cSteps) {
@@ -61,8 +83,14 @@ export class InstructionService {
 }
 
 
-export interface instructions {
+export interface Instructions {
   InstructionName: string;
   InstructionTitle: string;
   InstructionImg: string;
+}
+
+export interface Comments {
+  instructionname: string;
+  username: string;
+  text: string;
 }

@@ -54,10 +54,19 @@ const updateInstruction = (req, res) => {
         .catch(err => res.status(500).json(err));
 };
 
+const deleteInstruction = (req, res) => {
+    console.log(req.params.InstructionName);
+    Instruction.deleteOne({ InstructionName: req.params.InstructionName })
+        .exec()
+        .then(instruction => res.json(instruction))
+        .catch(err => res.status(500).json(err));
+};
+
 module.exports = {
     getAllInstruction,
     getUserInstruction,
     createInstruction,
     updateInstruction,
-    getOneInstruction
+    getOneInstruction,
+    deleteInstruction
 };

@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy  } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { InstructionService } from '../instruction.service';
-
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-view-fullinstruction',
@@ -12,9 +12,13 @@ export class ViewFullinstructionComponent implements OnInit  {
   instructionImg: string;
   instructionContent: string;
   instructionSteps = [];
+  commentData = [];
+  comment: string;
+  isLoggedIn: boolean = false;
 
   constructor(private instruction: InstructionService) { }
   ngOnInit() {
+    console.log(this.instruction.getInstructionName());
     this.instruction.getOneInstruction(this.instruction.getInstructionName())
       .subscribe(
         res => {
@@ -30,6 +34,24 @@ export class ViewFullinstructionComponent implements OnInit  {
       },
       err => console.log(err)
    );
+    this.instruction.getComments(this.instruction.getInstructionName()).subscribe(
+     res => this.commentData = res,
+     err => console.log(err)
+   );
+    if (localStorage.getItem('username') === null) {
+      this.isLoggedIn = false;
+   } else {
+      this.isLoggedIn = true;
+   }
   }
 
+  setComment() {
+    this.instruction.setComments(this.comment, this.instruction.getInstructionName(), localStorage.getItem('username')).subscribe(
+      res => {
+        console.log(res);
+        this.comment = '';
+      },
+      err => console.log(err)
+    );
+  }
 }

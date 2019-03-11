@@ -5,6 +5,7 @@ const { jwtSecret } = require('../../config/app');
 const nodemailer = require('nodemailer');
 
 const Users = mongoose.model('Users');
+const salt = bCrypt.genSaltSync(10);
 
 let transporter = nodemailer.createTransport({
     sevice: "Gmail",
@@ -47,6 +48,14 @@ const signIn = (req, res) => {
 
 };
 
+const getUsers = (req, res) => {
+    Users.find( {username: req.params.username})
+        .exec()
+        .then(users => res.json(users))
+        .catch(err => res.status(500).json(err));
+
+};
+
 const getAllUsers = (req, res) => {
     Users.find()
         .exec()
@@ -65,7 +74,6 @@ const getUseronToken = (req, res) => {
 };
 
 const createUser = async(req, res) => {
-    const salt = bCrypt.genSaltSync(10);
     const newuser = {
         username: req.body.username,
         userpass: bCrypt.hashSync(req.body.userpass, salt),
@@ -80,7 +88,8 @@ const createUser = async(req, res) => {
             res.json(err);
             return;
         } else {
-        res.json(result);
+            res.json(result);
+            return;
         }
     });
     
@@ -96,18 +105,65 @@ const createUser = async(req, res) => {
 
 const verifyUser = (req, res) => {
     const User = jwt.verify(req.params.regtoken, jwtSecret);
-    Users.findOneAndUpdate({ username: User.username, useremail: User.useremail }, { isverify: true })
+    Users.findOneAndUpdate({ username: User.username}, { isverify: true })
         .exec()
         .then(user => res.json(user))
         .catch(err => res.status(500).json(err));
 };
 
-
-const updateUser = (req, res) => {
-    Users.findOneAndUpdate({ username: req.params.username }, req.body)
+const blockUser = (req, res) => {
+    console.log(req.body);
+    Users.findOneAndUpdate({ username: req.params.username }, {isblock: !Boolean(req.body.isblock)})
         .exec()
         .then(user => res.json(user))
         .catch(err => res.status(500).json(err));
+}
+
+const adminUser = (req, res) => {
+    Users.findOneAndUpdate({ username: req.params.username }, {isadmin: !Boolean(req.body.isadmin)})
+        .exec()
+        .then(user => res.json(user))
+        .catch(err => res.status(500).json(err));
+}
+
+const updateUser = async(req, res) => {
+    const username = req.body.username;
+    const useremail = req.body.useremail;
+    const userpass =  bCrypt.hashSync(req.body.userpass, salt)
+    const isadmin = Boolean(req.body.isAdmin);
+    const isblock = Boolean(req.body.isBlock);
+    const isverify = Boolean(req.body.isVerify);
+    const token = jwt.sign({username: username}, jwtSecret);
+    console.log(username);
+    Users.findOne({username: req.params.username})
+        .exec()
+        .then(users => {
+            console.log(useremail + "   dsfsdf");
+            console.log(users.useremail + "   1111");
+            if (users.useremail != useremail) {
+                isverify = false;        
+            };
+            res.json(users);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+            return;
+        });
+    Users.findOneAndUpdate({ username: req.params.username }, {username, useremail, userpass, isadmin, isblock, isverify})
+        .exec()
+        .then(user => res.json(user))
+        .catch(err => res.status(500).json(err));
+    if (!isverify) {
+
+        let mailOptions = {
+            from: 'samuraiskizakon@gmail.com',
+            to: useremail,
+            subject: "VERIFY",
+            text: "Click to link to verify email",
+            html: "<a href=\"http://localhost:5000/verify/" + token + "\">Click yet</a>"
+        };
+        let info = await transporter.sendMail(mailOptions);
+    }
 };
 
 const removeUser = (req, res) => {
@@ -124,5 +180,8 @@ module.exports = {
     removeUser,
     signIn,
     verifyUser,
-    getUseronToken
+    getUseronToken,
+    getUsers,
+    blockUser,
+    adminUser
 };

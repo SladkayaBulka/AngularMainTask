@@ -25,15 +25,21 @@
             </div>
           </form> </mat-tab>
   </mat-tab-group>
-  <form >
+  <form *ngIf="isLoggedIn">
       <div class="form-group" >
         <h1>Comments</h1>
       </div>
       <div class="form-group">
-          <input type="text" class="form-control" [(ngModel)]="comment" name="comment">
+        <input type="text" class="form-control" [(ngModel)]="comment" name="comment">
       </div>
-      <div class="form-group" >
-        <p>{{commentData.text}}</p>
+      <div class="form-group">
+        <button class="btn btn-danger" (click)="setComment()">Comment</button>
       </div>
     </form>
+      <div class="form-group" *ngFor="let comments of commentData" style="border: 1px solid silver; border-radius: 15px;">
+        <h5 style="text-align: rigth; margin-left: 5px">Author: {{comments.username}}</h5>
+        <hr>
+        <p style="margin-left: 5px">{{comments.text}}</p>
+      </div>
+    
 </div>

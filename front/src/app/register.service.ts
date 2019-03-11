@@ -10,9 +10,32 @@ export class RegisterService {
   constructor(private http: HttpClient) { }
   onClick: EventEmitter<any> = new EventEmitter();
   UserData = {};
-
+  user: User;
   public doClick() {
     this.onClick.emit();
+  }
+
+  editUser(username, user) {
+    return this.http.put<any>(`${this.url}/users/${username}`, user);
+  }
+
+  getUser(user) {
+    return this.http.get<any>(`${this.url}/user/${user}`);
+  }
+  getAllUser() {
+    return this.http.get<any>(`${this.url}/users`);
+  }
+
+  blockUser(username, isblock) {
+    return this.http.put<any>(`${this.url}/block/${username}`, isblock);
+  }
+
+  adminUser(username, isadmin) {
+    return this.http.put<any>(`${this.url}/admin/${username}`, isadmin);
+  }
+
+  deleteUser(username) {
+    return this.http.delete<any>(`${this.url}/users/${username}`);
   }
 
   registerUser(user) {
@@ -42,4 +65,10 @@ export class RegisterService {
   getUserData() {
     return this.UserData;
   }
+}
+
+export interface User {
+  username: string;
+  userpass: string;
+  useremail: string;
 }

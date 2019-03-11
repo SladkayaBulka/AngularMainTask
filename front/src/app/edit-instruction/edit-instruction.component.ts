@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class EditInstructionComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   dataSource;
-  displayedColumns = ['InstructionTitle', 'InstructionImg', 'InstructionName'];
+  displayedColumns = ['actions', 'edit', 'InstructionTitle', 'InstructionImg', 'InstructionName'];
   constructor(private instruction: InstructionService) { }
   ngOnInit() {
     this.instruction.getUserInstruction(localStorage.getItem('username'))
@@ -23,6 +23,26 @@ export class EditInstructionComponent implements OnInit {
       },
       err => console.log(err)
     );
+}
+deleteInstruction(instructionName) {
+  this.instruction.deleteInstruction(instructionName)
+  .subscribe(
+    res => {
+      console.log(res);
+      this.ngOnInit();
+    },
+    err => {
+      console.log(err);
+      return;
+  }
+  );
+  this.instruction.delAllSteps(instructionName)
+  .subscribe(
+    res => console.log(res),
+    err => console.log(err));
+}
+public doFilter = (value: string) => {
+  this.dataSource.filter = value.trim().toLocaleLowerCase();
 }
 }
 

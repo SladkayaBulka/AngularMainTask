@@ -1,18 +1,41 @@
-<div class="container pt-5">
-    <mat-table [dataSource]="dataSource" matSort matSortActive="InstructionTitle" matSortDirection="ascн">
-      <ng-container matColumnDef="InstructionTitle">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>InstructionTitle</mat-header-cell> 
-          <mat-cell *matCellDef="let instruction">{{instruction.InstructionTitle}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="InstructionImg">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>InstructionImg</mat-header-cell> 
-          <mat-cell *matCellDef="let instruction">{{instruction.InstructionImg}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="InstructionName">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>InstructionName</mat-header-cell> 
-          <mat-cell *matCellDef="let instruction">{{instruction.InstructionName}}</mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
-      <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
-      </mat-table>
+<div class="container example-container mat-elevation-z8 pt-5">
+        <div>
+            <input class="form-control mr-sm-2" type="search" placeholder="Filter" aria-label="Search" (keyup)="doFilter($event.target.value)">
+        </div>
+        <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let instruction">
+                        <button class='btn btn-lg ' style='background-color:transparent;' (click)="deleteInstruction(instruction.InstructionName)"> 
+                            <div style='text-align:center;'><i class="far fa-trash-alt"></i></div>  
+                        </button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="edit">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let instruction">
+                            <button class='btn btn-lg ' style='background-color:transparent;' (click)="editInstruction(instruction.InstructionName)"> 
+                                <div style='text-align:center;'><i class="far fa-edit"></i></div>
+                            </button>
+                        </td>
+                    </ng-container>
+                <ng-container matColumnDef="InstructionTitle">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+                        <td mat-cell *matCellDef="let instruction"> {{instruction.InstructionTitle}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="InstructionImg">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Img </th>
+                  <td mat-cell *matCellDef="let instruction">{{instruction.InstructionImg}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="InstructionName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Name </th>
+                  <td mat-cell *matCellDef="let instruction">{{instruction.InstructionName}} </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 </div>
+

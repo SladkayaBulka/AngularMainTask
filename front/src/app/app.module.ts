@@ -5,6 +5,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTabsModule, MATERIAL_SANITY_CHECKS, MatSortModule, MatTableModule} from '@angular/material';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +26,8 @@ import { CreateInstructionComponent } from './create-instruction/create-instruct
 import { DndDirective } from './dnd.directive';
 import { CreateStepsComponent } from './create-steps/create-steps.component';
 import { ViewFullinstructionComponent } from './view-fullinstruction/view-fullinstruction.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { AdministrationComponent } from './administration/administration.component';
 
 const appRoutes: Routes = [
   {path: '', component : InstructionComponent},
@@ -30,7 +36,9 @@ const appRoutes: Routes = [
   {path: 'useredit', component : EditInstructionComponent},
   {path: 'addinstruction', component : CreateInstructionComponent},
   {path: 'instructionsteps', component : CreateStepsComponent},
-  {path: 'viewInstruction', component : ViewFullinstructionComponent}
+  {path: 'viewInstruction', component : ViewFullinstructionComponent},
+  {path: 'usersetting', component : UserSettingsComponent},
+  {path: 'admin', component : AdministrationComponent}
 ];
 
 @NgModule({
@@ -45,14 +53,21 @@ const appRoutes: Routes = [
     CreateInstructionComponent,
     DndDirective,
     CreateStepsComponent,
-    ViewFullinstructionComponent
+    ViewFullinstructionComponent,
+    UserSettingsComponent,
+    AdministrationComponent
   ],
   imports: [
     BrowserModule,
     MatSortModule,
     MatTableModule,
+    MatButtonModule,
     MatTabsModule,
+    FlexLayoutModule,
+    MatIconModule,
     BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
